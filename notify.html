@@ -77,18 +77,19 @@
             const container = document.getElementById('inventory-list');
             
             products.forEach(product => {
+                const key = Object.keys(product)[0]
                 const productItem = document.createElement('div');
                 productItem.className = 'product-item';
                 
                 const nameSpan = document.createElement('span');
                 nameSpan.className = 'product-name';
-                nameSpan.textContent = product;
+                nameSpan.textContent = `${key}`;
                 
                 const input = document.createElement('input');
                 input.type = 'number';
                 input.className = 'product-input';
                 input.min = '0';
-                input.placeholder = '0';
+                input.placeholder = '1';
                 input.dataset.product = product; // Сохраняем название товара в data-атрибуте
                 
                 productItem.appendChild(nameSpan);
@@ -110,6 +111,23 @@
         
             // Отправляем данные боту
             tg.sendData(JSON.stringify(data));
+        });
+
+        document.querySelectorAll('.tg-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const currentData = Array.from(inventoryList.children).map(item => {
+                    const text = item.textContent;
+                    const [name, value] = text.split(': ');
+                    return {[name]: parseInt(value)};
+                });
+                
+                const url = new URL(e.target.href, window.location.href);
+                url.searchParams.set('data', encodeURIComponent(JSON.stringify(currentData)));
+                
+                window.location.href = url.toString();
+            });
         });
         
         
