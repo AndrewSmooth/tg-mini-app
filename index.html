@@ -73,6 +73,23 @@
             itemElement.textContent = `${key}: ${value} шт.`;
             inventoryList.appendChild(itemElement);
         });
+
+        document.querySelectorAll('.tg-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const currentData = Array.from(inventoryList.children).map(item => {
+                    const text = item.textContent;
+                    const [name, value] = text.split(': ');
+                    return {[name]: parseInt(value)};
+                });
+                
+                const url = new URL(e.target.href, window.location.href);
+                url.searchParams.set('data', encodeURIComponent(JSON.stringify(currentData)));
+                
+                window.location.href = url.toString();
+            });
+        });
         
         // // Отправляем данные в Telegram (опционально)
         // tg.sendData(JSON.stringify({status: "Data loaded"}));
