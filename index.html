@@ -25,9 +25,28 @@
         .positive {
             background-color: #e8f5e9; /* Зеленый для положительных */
         }
+        .tg-link {
+        display: block;
+        padding: 12px;
+        margin: 8px 0;
+        background: #0088cc;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        text-align: center;
+        }
+        
+        .tg-link:hover {
+            background: #006699;
+        }
     </style>
 </head>
 <body>
+    <div class="navigation">
+    <a href="inventory.html" class="tg-link">Инвентарь</a>
+    <a href="orders.html" class="tg-link">Заказы</a>
+    <a href="settings.html" class="tg-link">Настройки</a>
+</div>
     <h1>Текущие остатки</h1>
     <div id="inventory-list"></div>
 
