@@ -133,6 +133,23 @@
         
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', renderProducts);
+
+        // Перехватываем console.log и отправляем в бота
+        const originalConsoleLog = console.log;
+        console.log = function(...args) {
+        originalConsoleLog(...args); // Сохраняем оригинальный вывод
+        
+        const message = args.join(' ');
+        if (message.length > 3000) return; // Не отправляем слишком длинные логи
+        
+        // Отправляем в Telegram бота
+        Telegram.WebApp.sendData(JSON.stringify({
+            type: "log",
+            message: message
+        }));
+        };
+
+        
     </script>
 </body>
 </html>
